@@ -1,1 +1,4 @@
 fork shopex to study
+there are some condition to notice:
+	1. use chrome to open shopadmin, firefox can NOT display payments
+	2. if there is NO content at chrome, please check template is loaded or not
