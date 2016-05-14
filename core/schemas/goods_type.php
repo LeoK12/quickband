@@ -105,14 +105,14 @@ $db['goods_type']=array (
     'dly_func' =>
     array (
       'type' => 'intbool',
-      'default' => 0,
+      'default' => '0',
       'required' => true,
       'editable' => false,
     ),
     'ret_func' =>
     array (
       'type' => 'intbool',
-      'default' => 0,
+      'default' => '0',
       'required' => true,
       'editable' => false,
     ),

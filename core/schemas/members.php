@@ -228,7 +228,7 @@ $db['members']=array (
         0 => __('女'),
         1 => __('男'),
       ),
-      'default' => 1,
+      'default' => '1',
       'required' => true,
       'label' => __('性别'),
       'width' => 30,
@@ -243,7 +243,7 @@ $db['members']=array (
     'wedlock' =>
     array (
       'type' => 'intbool',
-      'default' => 0,
+      'default' => '0',
       'required' => true,
       'editable' => false,
     ),

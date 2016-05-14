@@ -81,7 +81,7 @@ $db['plugins']=array (
         0 => __('系统'),
         9 => __('模板'),
       ),
-      'default' => 0,
+      'default' => '0',
       'required' => true,
       'label' => __('所属'),
       'width' => 110,

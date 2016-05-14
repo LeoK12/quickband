@@ -58,7 +58,7 @@ $db['operators']=array (
     'super' => 
     array (
       'type' => 'intbool',
-      'default' => 0,
+      'default' => '0',
       'required' => true,
       'label' => __('超级管理员'),
       'width' => 75,

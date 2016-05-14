@@ -30,11 +30,11 @@ class kernel{
         }
         if(!defined('CORE_INCLUDE_DIR')){
             define('CORE_INCLUDE_DIR',CORE_DIR.
-               ((!defined('SHOP_DEVELOPER') || !constant('SHOP_DEVELOPER')) && version_compare(PHP_VERSION,'5.0','>=')?'/include_v5':'/include'));
+               ((!defined('SHOP_DEVELOPER') || !constant('SHOP_DEVELOPER')) && version_compare(PHP_VERSION,'5.0','>=') && file_exists(CORE_DIR.'/model_v5')?'/include_v5':'/include'));
         }
         set_include_path(CORE_INCLUDE_DIR.PATH_SEPARATOR.'.'.PATH_SEPARATOR.CORE_DIR.'/lib/pear');
         require('defined.php');
-        $this->model_dir =  ((!defined('SHOP_DEVELOPER') || !constant('SHOP_DEVELOPER')) && version_compare(PHP_VERSION,'5.0','>=')?'model_v5':'model');
+        $this->model_dir =  ((!defined('SHOP_DEVELOPER') || !constant('SHOP_DEVELOPER')) && version_compare(PHP_VERSION,'5.0','>=') && file_exists(CORE_DIR.'/model_v5') ? 'model_v5':'model');
 
         if(constant('WITH_MEMCACHE')){
             $this->init_memcache(); //review: 错误信息
@@ -53,7 +53,7 @@ class kernel{
             if(constant('WITHOUT_CACHE')){
                 $this->cache = new nocache();
             }else{
-              
+
               require('cachemgr.php');
                 if(constant('WITH_MEMCACHE')){
                     require(PLUGIN_DIR.'/functions/cache_memcache.php');

@@ -183,7 +183,7 @@ $db['gift']=array (
     'ifrecommend' =>
     array (
       'type' => 'intbool',
-      'default' => 0,
+      'default' => '0',
       'required' => true,
       'label' => __('推荐'),
       'width' => 30,

@@ -166,7 +166,7 @@ $db['comments']=array (
         1 => __('已置顶'),
         0 => __('无'),
       ),
-      'default' => 0,
+      'default' => '0',
       'label' => __('置顶'),
       'editable' => false,
       'filtertype'=>'yes',

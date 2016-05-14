@@ -74,7 +74,7 @@ $db['message']=array (
     'unread' =>
     array (
       'type' => 'intbool',
-      'default' => 0,
+      'default' => '0',
       'required' => true,
       'editable' => false,
     ),
@@ -160,7 +160,7 @@ $db['message']=array (
         1 => 1,
         2 => 2,
       ),
-      'default' => 0,
+      'default' => '0',
       'editable' => false,
     ),
     'disabled' =>

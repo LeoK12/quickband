@@ -48,7 +48,7 @@ $db['member_lv']=array (
     'default_lv' => 
     array (
       'type' => 'intbool',
-      'default' => 0,
+      'default' => '0',
       'required' => true,
       'label' => __('是否默认'),
       'width' => 110,

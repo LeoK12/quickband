@@ -54,7 +54,7 @@ $db['dly_type']=array (
     'type' => 
     array (
       'type' => 'intbool',
-      'default' => 1,
+      'default' => '1',
       'required' => true,
       'editable' => false,
     ),
@@ -67,7 +67,7 @@ $db['dly_type']=array (
     'protect' => 
     array (
       'type' => 'intbool',
-      'default' => 0,
+      'default' => '0',
       'required' => true,
       'label' => __('物流保价'),
       'width' => 75,
@@ -89,7 +89,7 @@ $db['dly_type']=array (
     'has_cod' => 
     array (
       'type' => 'intbool',
-      'default' => 0,
+      'default' => '0',
       'required' => true,
       'label' => __('货到付款'),
       'width' => 110,
