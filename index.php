@@ -8,7 +8,7 @@ if(file_exists('config/config.php')){
     ob_end_clean();
 
     define('CORE_INCLUDE_DIR',CORE_DIR.
-            ((!defined('SHOP_DEVELOPER') || !constant('SHOP_DEVELOPER')) && version_compare(PHP_VERSION,'5.0','>=')?'/include_v5':'/include'));
+            ((!defined('SHOP_DEVELOPER') || !constant('SHOP_DEVELOPER')) && version_compare(PHP_VERSION,'5.0','>=') && file_exists(CORE_DIR.'/model_v5')?'/include_v5':'/include'));
 
     if(isset($_GET['cron']) && $_GET['cron']){
         require(CORE_INCLUDE_DIR.'/crontab.php');

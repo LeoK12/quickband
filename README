@@ -2,3 +2,4 @@ fork shopex to study
 there are some condition to notice:
 	1. use chrome to open shopadmin, firefox can NOT display payments
 	2. if there is NO content at chrome, please check template is loaded or not
+	3. when first install, follow the error messages displayed on the webpage to chmod permissions and create template_c directory and disable WITHOUT_CACHE at /config/config.php
