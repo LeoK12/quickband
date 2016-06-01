@@ -1,10 +1,10 @@
 <?php
 function db_get_update_sql(&$db,&$rs, $data, $InsertIfNoResult = false,$insertData=null,$ignore=false){
-    if(!is_resource($rs['rs'])){
-        trigger_error('GetUpdateSQL: '.$rs['sql'].' error ',E_USER_ERROR);
+    if(!$rs['rs']){
+        trigger_error('GetUpdateSQL: '.$rs['sql'].' error :'.mysqli_error($db), E_USER_WARNING);
     }
-    mysql_data_seek($rs['rs'],0);
-    $row = mysql_fetch_assoc($rs['rs']);
+    mysqli_data_seek($rs['rs'],0);
+    $row = mysqli_fetch_assoc($rs['rs']);
     if($InsertIfNoResult && !$row){
         return db_get_insert_sql($db,$rs,$data);
     }
@@ -22,9 +22,9 @@ function db_get_update_sql(&$db,&$rs, $data, $InsertIfNoResult = false,$insertDa
     }
 
     $UpdateValues = array();
-    $col_count = mysql_num_fields($rs['rs']);
+    $col_count = mysqli_num_fields($rs['rs']);
     for($i=0;$i<$col_count;$i++) {
-        $column = mysql_fetch_field($rs['rs'],$i);
+        $column = mysqli_fetch_field($rs['rs']);
         if(array_key_exists($column->name, $data) && ($ignore || $data[$column->name]!==$row[$column->name] || $column->type == 'bool')){
             if(is_array($data[$column->name]) || is_object($data[$column->name])){
                 if(serialize($data[$column->name])==$row[$column->name]){
@@ -34,7 +34,7 @@ function db_get_update_sql(&$db,&$rs, $data, $InsertIfNoResult = false,$insertDa
             $UpdateValues[] ='`'.$column->name.'`='.db_quotevalue($db,$data[$column->name],$column->type);
         }
     }
-    mysql_field_seek($rs['rs'],0);
+    mysqli_field_seek($rs['rs'],0);
     if (count($UpdateValues)>0) {
         $whereClause = db_whereClause($rs['sql']);
         $UpdateValues=implode(',',$UpdateValues);
@@ -49,10 +49,10 @@ function db_get_update_sql(&$db,&$rs, $data, $InsertIfNoResult = false,$insertDa
 
 function db_get_insert_sql($db,&$rs, &$data,$autoup=false) {
     if(!$rs['rs']){
-        trigger_error('GetInsertSQL: '.$rs['sql'].' error ',E_USER_WARNING);
+        trigger_error('GetInsertSQL: '.$rs['sql'].' error :'.mysqli_error($db), E_USER_WARNING);
         return false;
     }
-    mysql_field_seek($rs['rs'],0);
+    mysqli_field_seek($rs['rs'],0);
     if(is_object($data)){
         $data = get_object_vars($data);
     }
@@ -65,7 +65,7 @@ function db_get_insert_sql($db,&$rs, &$data,$autoup=false) {
     }
 
     if($autoup){
-        $keyColumn = mysql_fetch_field($rs['rs']);
+        $keyColumn = mysqli_fetch_field($rs['rs']);
         if(!$data[strtolower($keyColumn->name)]){
             $rs = $db->exec('SELECT MAX('.$keyColumn->name.') AS keyid FROM '.$tableName);
             $result = $db->selectrow('SELECT MAX('.$keyColumn->name.') AS keyid FROM '.$tableName);
@@ -73,9 +73,9 @@ function db_get_insert_sql($db,&$rs, &$data,$autoup=false) {
         }
     }
     $insertValues = array();
-    $col_count = mysql_num_fields($rs['rs']);
+    $col_count = mysqli_num_fields($rs['rs']);
     for($i=0;$i<$col_count;$i++) {
-        $column = mysql_fetch_field($rs['rs'],$i);
+        $column = mysqli_fetch_field($rs['rs']);
 
         if(isset($data[$column->name])){
 
@@ -86,7 +86,7 @@ function db_get_insert_sql($db,&$rs, &$data,$autoup=false) {
     }
     $strValue = implode(',',$insertValues);
     $strFields = implode('`,`',array_keys($insertValues));
-    mysql_field_seek($rs['rs'],0);
+    mysqli_field_seek($rs['rs'],0);
    return 'INSERT INTO `'.$tableName.'` ( `'.$strFields.'` ) VALUES ( '.$strValue.' )';
 }
 

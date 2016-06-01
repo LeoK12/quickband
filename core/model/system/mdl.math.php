@@ -71,7 +71,7 @@ class mdl_math extends modelFactory  {
     * return 进位后 商品 价格
     */
     function get( $number ){
-        return call_user_func_array( "floor" , $number * pow( 10 , $this->goodsShowDecimals) )/pow( 10 , $this->goodsShowDecimals);
+        return call_user_func_array( "floor" , array($number * pow( 10 , $this->goodsShowDecimals)) )/pow( 10 , $this->goodsShowDecimals);
     }
 
     /**
@@ -79,9 +79,7 @@ class mdl_math extends modelFactory  {
     * return 进位后 运算 价格
     */
     function getOperationNumber( $number ){
-        
-             return call_user_func_array( $this->operationFunc , ($number * pow( 10 , $this->operationDecimals)).'' )/pow( 10 , $this->operationDecimals);
-        
+        return call_user_func_array( $this->operationFunc , array($number * pow( 10 , $this->operationDecimals)) )/pow( 10 , $this->operationDecimals);
     }
 }
 

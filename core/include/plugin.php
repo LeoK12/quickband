@@ -2,7 +2,7 @@
 include_once('shopObject.php');
 define(LOWER_CASE,1);
 define(UPPER_CASE,2);
-class plugin extends shopObject{
+class plugin {
 
     var $plugin_type=null;
     var $plugin_name=null;

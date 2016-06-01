@@ -209,6 +209,7 @@ class mdl_serverinfo{
                 $allow_install = false;
             }
 
+            /*
             $rst = (defined('OPTIMIZER_VERSION') || (function_exists('extension_loaded') && extension_loaded('Zend Optimizer')));
             if($rst){
                 if(defined('OPTIMIZER_VERSION')){
@@ -228,6 +229,7 @@ class mdl_serverinfo{
             if(!$rst){
                 $allow_install = false;
             }
+            */
         }
 
         if(ini_get('safe_mode')){

@@ -25,7 +25,7 @@ class mdl_products extends shopObject{
     var $globalTmp;        //零时全局变量
     var $name='商品';
 
-    function getColumns($filter,$from = null){
+    function getColumns($from = null){
         $ret = parent::getColumns();
         $ret['_cmd'] = array('label'=>__('操作'),'width'=>75,'html'=>'product/finder_command.html');
         if($from=='from'){
@@ -117,7 +117,7 @@ class mdl_products extends shopObject{
         }
     }
 
-    function _filter($filter,$tbase=''){
+    function _filter($filter,$tbase='', $where=null){
         if(isset($filter['keyword'])){
             $filter['keyword'] = addslashes($filter['keyword']);
         }
@@ -195,7 +195,7 @@ class mdl_products extends shopObject{
         return $rs;
     }
 
-    function wFilter($words){
+    function wFilter($words, $colum = null){
         $replace = array(",","+");
         $enStr=preg_replace("/[^chr(128)-chr(256)]+/is"," ",$words);
         $otherStr=preg_replace("/[chr(128)-chr(256)]+/is"," ",$words);

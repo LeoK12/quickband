@@ -138,11 +138,11 @@ class adminCore extends kernel{
             $aRs = $this->db->exec('select config from sdb_operators where op_id='.intval($this->op_id));
             $sql = $this->db->GetUpdateSql($aRs,array('config'=>$this->op_config));
             if($sql){
-                $this->db->exec($sql,true,true);
+                $this->db->exec($sql,true);
             }
         }
 
-        $aRs = $this->db->exec("SELECT * FROM sdb_op_sessions WHERE sess_id='".$this->sess_id."'",true,true);
+        $aRs = $this->db->exec("SELECT * FROM sdb_op_sessions WHERE sess_id='".$this->sess_id."'",true);
         
         if($this->op_id){
             $status = 1;
@@ -166,7 +166,7 @@ class adminCore extends kernel{
         unset($sess);
 
         $sql = $this->db->GetUpdateSql($aRs,$aTemp,true);
-        if(!$sql || $this->db->exec($sql,true,true)){
+        if(!$sql || $this->db->exec($sql,true)){
             return true;
         }else{
             return false;

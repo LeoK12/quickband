@@ -2305,7 +2305,7 @@ class soap_transport_http extends nusoap_base {
         }
 
         // use persistent connection
-        if($this->persistentConnection && isset($this->fp) && is_resource($this->fp)){
+        if($this->persistentConnection && isset($this->fp) && !$this->fp){
             if (!feof($this->fp)) {
                 $this->debug('Re-use persistent connection');
                 return true;

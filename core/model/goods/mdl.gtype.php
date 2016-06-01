@@ -61,7 +61,7 @@ class mdl_gtype extends shopObject{
         }
     }
 
-    function getColumns($filter){
+    function getColumns(){
         $ret = array('_cmd'=>array('label'=>__('操作'),'width'=>110,'html'=>'product/gtype/finder_command.html'));
         return array_merge($ret,parent::getColumns());
     }
