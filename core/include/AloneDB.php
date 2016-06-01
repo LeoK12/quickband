@@ -24,7 +24,7 @@ class AloneDB{
     function update($table,$data,$whereFilter){
     }
 
-    function &exec($sql , $skipModifiedMark = false,$db_lnk=null){
+    function &exec($sql, $skipModifiedMark = false, $db_lnk=null){
 
         if(!$skipModifiedMark && preg_match('/(?:(delete\s+from)|(insert\s+into)|(update))\s+([]0-9a-z_:"`.@[-]*)/is', $sql, $match)){
             $table = strtoupper(trim(str_replace('`','',str_replace('"','',str_replace("'",'',$match[4])))));
@@ -39,7 +39,7 @@ class AloneDB{
             }
         }
 
-        if(!is_resource($db_lnk)){
+        if(!$db_lnk){
             if($this->_rw_lnk){
                 $db_lnk = &$this->_rw_lnk;
             }else{
@@ -51,11 +51,11 @@ class AloneDB{
             $sql = preg_replace('/([`\s\(,])(sdb_)([a-z\_]+)([`\s\.]{0,1})/is',"\${1}".$this->prefix."\\3\\4",$sql);
         }
 
-        if($rs = mysql_query($sql,$db_lnk)){
-            $db_result = array('rs'=>&$rs,'sql'=>$sql);
+        if($rs = mysqli_query($db_lnk, $sql)){
+            $db_result = array('rs'=>$rs,'sql'=>$sql);
             return $db_result;
         }else{
-            trigger_error($sql.':'.mysql_error($db_lnk),E_USER_WARNING);
+            trigger_error($sql.':'.mysqli_error($db_lnk), E_USER_WARNING);
             return false;
         }
     }
@@ -80,10 +80,10 @@ class AloneDB{
 
         $rs = $this->exec($sql,true,$db_lnk);
         $data = array();
-        while($row = mysql_fetch_assoc($rs['rs'])){
+        while($row = mysqli_fetch_assoc($rs['rs'])){
             $data[]=$row;
         }
-        mysql_free_result($rs['rs']);
+        mysqli_free_result($rs['rs']);
         return $data;
     }
 
@@ -116,7 +116,7 @@ class AloneDB{
     function &getRows($rs,$row=10){
         $i=0;
         $data = array();
-        while(($row = mysql_fetch_assoc($rs['rs'])) && $i++<$row){
+        while(($row = mysqli_fetch_assoc($rs['rs'])) && $i++<$row){
             $data[]=$row;
         }
         return $data;
@@ -131,20 +131,20 @@ class AloneDB{
         if(constant('DB_PCONNECT')){
             $lnk = mysql_pconnect($host,$user,$passwd);
         }else{
-            $lnk = mysql_connect($host,$user,$passwd);
+            $lnk = mysqli_connect($host,$user,$passwd);
         }
         if(!$lnk){
-            trigger_error(__('无法连接数据库:').mysql_error().E_USER_ERROR);
+            trigger_error(__('无法连接数据库:').mysqli_connect_error(), E_USER_ERROR);
         }
-        mysql_select_db( $dbname, $lnk );
-        if(preg_match('/[0-9\.]+/is',mysql_get_server_info($lnk),$match)){
+        mysqli_select_db($lnk, $dbname);
+        if(preg_match('/[0-9\.]+/is',mysqli_get_server_info($lnk),$match)){
             $dbver = $match[0];
             if(version_compare($dbver,'4.1.1','<')){
                 define('DB_OLDVERSION',1);
                 $this->dbver = 3;
             }else{
                 if(constant('DB_CHARSET')){
-                    mysql_query('SET NAMES \''.DB_CHARSET.'\'',$lnk);
+                    mysqli_query($lnk, 'SET NAMES \''.DB_CHARSET.'\'');
                 }
                 if(!version_compare($dbver,'6','<')){
                     $this->dbver = 6;
@@ -218,7 +218,8 @@ class AloneDB{
     }
 
     function quote($string){
-        if(!($result=mysql_real_escape_string($string))){
+        $db = $this->_rw_lnk ? $this->_rw_lnk : $this->_ro_lnk;
+        if(!($result=mysqli_real_escape_string($db, $string))){
             $result=$string;
         }
 
@@ -230,8 +231,8 @@ class AloneDB{
     function lastinsertid(){
         $sql = 'SELECT LAST_INSERT_ID() AS lastinsertid';
         $rs = $this->exec($sql,true,$this->_rw_lnk);
-        $row = mysql_fetch_assoc($rs['rs']);
-        mysql_free_result($rs['rs']);
+        $row = mysqli_fetch_assoc($rs['rs']);
+        mysqli_free_result($rs['rs']);
         return $row['lastinsertid'];
     }
 
@@ -241,11 +242,11 @@ class AloneDB{
     }
 
     function affect_row(){
-        return mysql_affected_rows();
+        return mysqli_affected_rows($this->_rw_lnk);
     }
 
     function errorinfo(){
-        return mysql_error();
+        return mysqli_error($this->_rw_lnk);
     }
 
     function splitsql($sql){

@@ -41,8 +41,8 @@ class mdl_tramsy{
 
         $ldq = preg_quote($this->left_delimiter,'!');
         $rdq = preg_quote($this->right_delimiter,'!');
-        $file_contents = preg_replace("!{$ldq}\*.*?\*{$rdq}!se",'',$file_contents);
-        $file_contents = preg_replace("!(\<\?|\?\>)!",'<?php echo \'\1\'; ?>',$file_contents);
+        $file_contents = preg_replace_callback("!{$ldq}\*.*?\*{$rdq}!se",'',$file_contents);
+        $file_contents = preg_replace_callback("!(\<\?|\?\>)!",'<?php echo \'\1\'; ?>',$file_contents);
         if($this->bundle_vars){
             foreach($this->bundle_vars as $k=>$v){
                 if(!$v){
