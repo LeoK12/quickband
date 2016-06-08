@@ -5,7 +5,7 @@ if(include(dirname(__FILE__).'/../config/config.php')){
     ob_end_clean();
     if(!defined('CORE_INCLUDE_DIR')){
         define('CORE_INCLUDE_DIR',CORE_DIR.
-            ((!defined('SHOP_DEVELOPER') || !constant('SHOP_DEVELOPER')) && version_compare(PHP_VERSION,'5.0','>=')?'/include_v5':'/include'));
+            ((!defined('SHOP_DEVELOPER') || !constant('SHOP_DEVELOPER')) && version_compare(PHP_VERSION,'5.0','>=') && file_exists(CORE_DIR.'/model_v5') ? '/include_v5':'/include'));
     }
     require(CORE_INCLUDE_DIR.'/shopCore.php');
     require_once(CORE_DIR.'/func_ext.php');

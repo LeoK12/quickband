@@ -247,7 +247,7 @@ class mdl_messenger extends plugin{
     }
 
     function runQueue(){
-        $row = $this->db->selectrow("select modified from sdb_cachemgr where cname='MSG_MUTEX'",true,true);
+        $row = $this->db->selectrow("select modified from sdb_cachemgr where cname='MSG_MUTEX'");
 
             if( time() - $row['modified'] > 900){
                 $this->db->exec("replace into sdb_cachemgr (cname,modified) values ('MSG_MUTEX',".time().")");
